@@ -1,0 +1,130 @@
+-- =====================================================
+-- PROYECTO TRANSPORTE BACKEND - ESTRUCTURA COMPLETA
+-- =====================================================
+
+-- SCRIPTO DE CREACIÓN DE BASE DE DATOS (OPCIONAL)
+-- MySQL 8.0+
+
+CREATE DATABASE IF NOT EXISTS transporte_db;
+USE transporte_db;
+
+-- LAS TABLAS SE CREAN AUTOMÁTICAMENTE CON JPA (ddl-auto=update)
+-- ESTE SCRIPT ES PARA REFERENCIA
+
+-- =====================================================
+-- ENDPOINTS DISPONIBLES
+-- =====================================================
+
+-- ENDPOINTS PÚBLICOS (SIN AUTH)
+-- GET /api/publico/vehiculos/documentos-vencidos
+-- GET /api/publico/conductores/habilitados
+-- GET /api/publico/vehiculos/{placa}
+-- GET /api/publico/vehiculos/documentos-por-vencer?dias=30
+-- GET /api/publico/personas/estadisticas
+
+-- ENDPOINTS PROTEGIDOS (REQUIEREN JWT + APIKey)
+-- POST   /api/personas              - Crear persona (si es Admin, crea usuario)
+-- GET    /api/personas             - Listar personas
+-- GET    /api/personas/{id}        - Obtener persona
+-- PUT    /api/personas/{id}        - Actualizar persona
+
+-- PUT    /api/usuarios/{login}/password - Cambiar password
+-- GET    /api/usuarios/{login}/apikey - Regenerar APIKey
+
+-- POST   /api/vehiculos             - Crear vehículo
+-- GET    /api/vehiculos            - Listar vehículos
+-- GET    /api/vehiculos/{id}        - Obtener vehículo
+-- GET    /api/vehiculos/placa/{placa} - Obtener vehículo por placa
+
+-- POST   /api/vehiculos/conductores        - Asociar conductor
+-- PUT    /api/vehiculos/conductores/{id}/estado - Cambiar estado
+-- GET   /api/vehiculos/conductores/habilitados - Conductores habilitados
+
+-- GET    /api/vehiculos/documentos/vencidos         - Docs vencidos
+-- GET    /api/vehiculos/documentos/por-vencer?dias=30 - Docs por vencer
+
+-- POST   /api/documentos          - Subir documentos (PDF Base64)
+-- GET    /api/documentos/{id}    - Obtener documento
+
+-- =====================================================
+-- EJEMPLO PETICIONES POSTMAN
+-- =====================================================
+
+-- 1. CREAR PERSONA ADMIN (crea usuario automáticamente)
+-- POST {{url}}/api/personas
+-- {
+--   "identificacion": "123456789",
+--   "tipoIdentificacion": "CC",
+--   "nombres": "Juan Carlos",
+--   "apellidos": "Pérez Gómez",
+--   "correo": "juan.perez@transporte.com",
+--   "tipoPersona": "A"
+-- }
+
+-- 2. CREAR CONDUCTOR
+-- POST {{url}}/api/personas
+-- {
+--   "identificacion": "987654321",
+--   "tipoIdentificacion": "CC",
+--   "nombres": "Pedro",
+--   "apellidos": "López",
+--   "correo": "pedro@transporte.com",
+--   "tipoPersona": "C"
+-- }
+
+-- 3. CREAR VEHÍCULO
+-- POST {{url}}/api/vehiculos
+-- {
+--   "placa": "ABC123",
+--   "marca": "Toyota",
+--   "modelo": "Hilux",
+--   "anioFabricacion": 2022
+-- }
+
+-- 4. ASOCIAR CONDUCTOR A VEHÍCULO
+-- POST {{url}}/api/vehiculos/conductores
+-- {
+--   "idPersona": 2,
+--   "idVehiculo": 1
+-- }
+
+-- 5. CAMBIAR ESTADO CONDUCTOR
+-- PUT {{url}}/api/vehiculos/conductores/1/estado
+-- {
+--   "estado": "PO"
+-- }
+
+-- 6. SUBIR DOCUMENTO
+-- POST {{url}}/api/documentos
+-- {
+--   "idVehiculo": 1,
+--   "documentos": [{
+--     "tipoDocumento": "SOAT",
+--     "numeroDocumento": "SOAT-001",
+--     "fechaVencimiento": "2025-12-31",
+--     "archivoBase64": "JVBERi0xLjQK..."
+--   }]
+-- }
+
+-- =====================================================
+-- CABECERAS AUTH
+-- =====================================================
+
+-- Authorization: Bearer <token_jwt>
+-- X-API-Key: <apiKey_del_usuario>
+
+-- =====================================================
+-- CONFIGURACIÓN APPLICATION.PROPERTIES
+-- =====================================================
+
+-- 修改 MySQL:
+-- spring.datasource.url=jdbc:mysql://localhost:3306/transporte_db
+-- spring.datasource.username=root
+-- spring.datasource.password=root
+
+-- =====================================================
+-- EJECUCIÓN
+-- =====================================================
+
+-- mvn clean install
+-- mvn spring-boot:run
