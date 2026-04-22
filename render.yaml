@@ -1,3 +1,7 @@
+databases:
+  - name: transporte-mysql
+    type: mysql
+
 services:
   - type: web
     name: transporte-backend
@@ -24,7 +28,3 @@ services:
         value: Y2FtYXNldHJhbnNwb3J0ZWJhc2VlbmNyeXB0b2tleXNlY3JldGhpcyRmMWMyZjNhZi1lMjM0LTQ0ODMtODFmYy1mNjc3ODkwMTIzNDMyZTI
       - key: JWT_EXPIRATION
         value: "86400000"
-
-databases:
-  - name: transporte-mysql
-    type: MYSQL
