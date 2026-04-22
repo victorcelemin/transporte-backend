@@ -1,0 +1,12 @@
+# Cloud Build configuration
+steps:
+  - name: maven:3.9-eclipse-temurin-17
+    entrypoint: mvn
+    args:
+      - clean
+      - package
+      - -DskipTests
+    id: build-jar
+
+images:
+  - gcr.io/$PROJECT_ID/transporte-backend:$COMMIT_SHA
