@@ -13,6 +13,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Usuario.Usuari
 
     Optional<Usuario> findByApiKey(String apiKey);
 
+    Optional<Usuario> findByIdPersona(Long idPersona);
+
     boolean existsByLogin(String login);
 
     boolean existsByIdPersona(Long idPersona);

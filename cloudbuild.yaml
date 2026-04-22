@@ -2,11 +2,13 @@
 steps:
   - name: maven:3.9-eclipse-temurin-17
     entrypoint: mvn
-    args:
-      - clean
-      - package
-      - -DskipTests
+    args: [clean, package, -DskipTests]
     id: build-jar
 
+artifacts:
+  objects:
+    location: gs://domilink-prod_cloudbuild/
+    paths: [target/transporte-backend-1.0.0.jar]
+
 images:
-  - gcr.io/$PROJECT_ID/transporte-backend:$COMMIT_SHA
+  - gcr.io/$PROJECT_ID/transporte-backend:latest
