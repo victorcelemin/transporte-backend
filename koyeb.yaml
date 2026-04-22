@@ -1,0 +1,16 @@
+# Koyeb App Configuration
+app: transporte-backend
+build:
+  buildCommand: mvn clean package -DskipTests
+  dockerfile: Dockerfile
+run:
+  command: java -jar target/transporte-backend-1.0.0.jar
+  envVars:
+    - key: DB_URL
+      value: ${DB_URL}
+    - key: DB_USER
+      value: ${DB_USER}
+    - key: DB_PASSWORD
+      value: ${DB_PASSWORD}
+    - key: JWT_SECRET
+      value: Y2FtYXNldHJhbnNwb3J0ZWJhc2VlbmNyeXB0b2tleXNlY3JldGhpcyRmMWMyZjNhZi1lMjM0LTQ0ODMtODFmYy1mNjc3ODkwMTIzNDMyZTI
