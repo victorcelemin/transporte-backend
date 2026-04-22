@@ -6,8 +6,7 @@ services:
   - type: web
     name: transporte-backend
     repo: https://github.com/victorcelemin/transporte-backend
-    buildCommand: mvn clean install
-    startCommand: java -jar target/transporte-backend-1.0.0.jar
+    dockerfile: Dockerfile
     envVars:
       - key: DB_URL
         fromService:
