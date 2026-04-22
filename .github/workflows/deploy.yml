@@ -1,0 +1,32 @@
+name: Deploy to Render
+
+on:
+  workflow_dispatch:
+    inputs:
+      render_token:
+        description: 'Render API Token'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to Render
+        run: |
+          curl -X POST "https://api.render.com/v1/services" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "service": {
+                "name": "transporte-backend",
+                "type": "web",
+                "region": " oregon"
+              },
+              "ownerId": "self",
+              "repo": "https://github.com/victorcelemin/transporte-backend",
+              "branch": "master",
+              "buildCommand": "mvn clean package -DskipTests",
+              "startCommand": "java -jar target/transporte-backend-1.0.0.jar"
+            }'
