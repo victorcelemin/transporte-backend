@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: transporte-backend
+    repo: https://github.com/victorcelemin/transporte-backend
+    buildCommand: mvn clean install
+    startCommand: java -jar target/transporte-backend-1.0.0.jar
+    envVars:
+      - key: DB_URL
+        fromService:
+          type: MYSQL
+          name: transporte-mysql
+          property: url
+      - key: DB_USER
+        fromService:
+          type: MYSQL
+          name: transporte-mysql
+          property: username
+      - key: DB_PASSWORD
+        fromService:
+          type: MYSQL
+          name: transporte-mysql
+          property: password
+      - key: JWT_SECRET
+        value: Y2FtYXNldHJhbnNwb3J0ZWJhc2VlbmNyeXB0b2tleXNlY3JldGhpcyRmMWMyZjNhZi1lMjM0LTQ0ODMtODFmYy1mNjc3ODkwMTIzNDMyZTI
+      - key: JWT_EXPIRATION
+        value: "86400000"
+
+databases:
+  - name: transporte-mysql
+    type: MYSQL
